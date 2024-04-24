@@ -78,11 +78,11 @@ https://github.com/complexza/ps-housing/assets/74205343/0ff26e7f-1341-45fc-8fc6-
 
 ## PAY ATTENTION TO EACH STEP. DO NOT SKIP ANY. 
 
-### 1. Find the following events in `qb-multicharacter` and change in server/main.lua event to: 
+### 1. Find the following events in `pappu-multicharacter` and change in server/main.lua event to: 
 
-`qb-multicharacter > server > main.lua`
+`pappu-multicharacter > server > main.lua`
 ```lua
-RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
+RegisterNetEvent('pappu-multicharacter:server:loadUserData', function(cData)
     local src = source
     if QBCore.Player.Login(src, cData.citizenid) then
         local Player = QBCore.Functions.GetPlayer(src)
@@ -94,7 +94,7 @@ RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
         QBCore.Commands.Refresh(src)
         if Config.SkipSelection then
             local coords = json.decode(cData.position)
-            TriggerClientEvent('qb-multicharacter:client:spawnLastLocation', src, coords, cData)
+            TriggerClientEvent('pappu-multicharacter:client:spawnLastLocation', src, coords, cData)
         else
             TriggerClientEvent('ps-housing:client:setupSpawnUI', src, cData)
         end
@@ -103,9 +103,9 @@ RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
 end)
 ```
 
-`qb-multicharacter > server > main.lua`
+`pappu-multicharacter > server > main.lua`
 ```lua
-RegisterNetEvent('qb-multicharacter:server:createCharacter', function(data)
+RegisterNetEvent('pappu-multicharacter:server:createCharacter', function(data)
     local src = source
     local newData = {}
     newData.cid = data.cid
@@ -116,7 +116,7 @@ RegisterNetEvent('qb-multicharacter:server:createCharacter', function(data)
         until hasDonePreloading[src]
         print('^2[qb-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
         QBCore.Commands.Refresh(src)
-        TriggerClientEvent("qb-multicharacter:client:closeNUI", src)
+        TriggerClientEvent("pappu-multicharacter:client:closeNUI", src)
         newData.citizenid = QBCore.Functions.GetPlayer(src).PlayerData.citizenid
         TriggerClientEvent('ps-housing:client:setupSpawnUI', src, newData)
         GiveStarterItems(src)
@@ -124,11 +124,11 @@ RegisterNetEvent('qb-multicharacter:server:createCharacter', function(data)
 end)
 
 ```
-### 2. Find the following event in `qb-multicharacter` and change in client/main.lua event to: 
-`qb-multicharacter > client > main.lua`
+### 2. Find the following event in `pappu-multicharacter` and change in client/main.lua event to: 
+`pappu-multicharacter > client > main.lua`
 
 ```lua
-RegisterNetEvent('qb-multicharacter:client:spawnLastLocation', function(coords, cData)
+RegisterNetEvent('pappu-multicharacter:client:spawnLastLocation', function(coords, cData)
     local result = lib.callback.await('ps-housing:cb:GetOwnedApartment', source, cData.citizenid)
     if result then
         TriggerEvent("apartments:client:SetHomeBlip", result.type)
@@ -323,7 +323,7 @@ end)
 
 ### 7. Delete default [qb-houses](https://github.com/qbcore-framework/qb-houses)
 
-### 8. Delete `qb-apartments/config.lua` references in `qb-spawn`, `qb-multicharacter` and `qb-phone` fxmanifest.lua (and any other scripts that may reference it).
+### 8. Delete `qb-apartments/config.lua` references in `qb-spawn`, `pappu-multicharacter` and `qb-phone` fxmanifest.lua (and any other scripts that may reference it).
 
 ### 9. Ensure ps-realtor above ps-housing.
 
